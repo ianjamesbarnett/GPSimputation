@@ -1,6 +1,7 @@
 
 ## Figure 1. Theoretical unobserved trajectories and their surrogates.
 
+```
 par(mfrow=c(3,2))
 par(mai=c(0,0,0,0))
 
@@ -249,3 +250,4 @@ plot(mumat,type="l",lwd=.2,lty=2,xlim=xrang,ylim=yrang,asp=1,bty="n",yaxt="n",xa
 lines(G,col="Red",lwd=.3)
 lines(H2,col="Green",lwd=.3)
 lines(F2,col="Purple",lwd=.3)
+```
