@@ -1,7 +1,11 @@
 
 ## Figure 1. Theoretical unobserved trajectories and their surrogates.
 
-![image](/Figures/SemiCircleTrajectoriesExampleFig2.pdf)
+<object data="/Figures/SemiCircleTrajectoriesExampleFig2.pdf" type="application/pdf" width="700px" height="700px">
+    <embed src="/Figures/SemiCircleTrajectoriesExampleFig2.pdf">
+        <p>This browser does not support PDFs. Please download the PDF to view it: <a href="/Figures/SemiCircleTrajectoriesExampleFig2.pdf">Download PDF</a>.</p>
+    </embed>
+</object>
 
 The code that produces this is figure is:
 ```
