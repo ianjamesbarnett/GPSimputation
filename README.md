@@ -1,6 +1,8 @@
 
 ## Figure 1. Theoretical unobserved trajectories and their surrogates.
 
+
+The code that produces this is figure is:
 ```
 par(mfrow=c(3,2))
 par(mai=c(0,0,0,0))
