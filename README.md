@@ -5,7 +5,7 @@
 
 
 
-The code that produces this is figure is:
+The code that produces this figure is:
 ```
 par(mfrow=c(3,2))
 par(mai=c(0,0,0,0))
