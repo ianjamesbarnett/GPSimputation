@@ -1,6 +1,7 @@
 
 ## Figure 1. Theoretical unobserved trajectories and their surrogates.
 
+![image](/GPSimputation/Figures/SemiCircleTrajectoriesExampleFig2.pdf)
 
 The code that produces this is figure is:
 ```
