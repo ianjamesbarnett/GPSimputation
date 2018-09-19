@@ -3,9 +3,9 @@ Directions for running the code on this example:
 1. Install the GPSmobility package in R. The source for the package is included in this folder "GPSmobility_X.X.tar.gz"
 2. Open command line and change the directory to this example folder
 3. Enter the following command: "Rscript GPSMobility.R example1". This will create
- a. One mobility plot for each day in the data set (FlightsPlot_YYYY-MM-DD_example1.pdf)
- b. One mobility plot combined over the entirety of the data set (FlightsPlot_full_example1.pdf)
- c. A tab delimited matrix of mobility features (MobFeatMat_example1.txt). The rows of this file represent a single day in the range that the data set was collected over. Each column represents a different feature. The features are described here:
+ 1. One mobility plot for each day in the data set (FlightsPlot_YYYY-MM-DD_example1.pdf)
+ 2. One mobility plot combined over the entirety of the data set (FlightsPlot_full_example1.pdf)
+ 3. A tab delimited matrix of mobility features (MobFeatMat_example1.txt). The rows of this file represent a single day in the range that the data set was collected over. Each column represents a different feature. The features are described here:
 			-Hometime:			Time spent at home (minutes)	
 			-DistTravelled:		Distance travelled (meters)
 			-RoG:				Radius of gyration (meters)
