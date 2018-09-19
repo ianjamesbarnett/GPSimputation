@@ -525,3 +525,7 @@ legend("topleft",c(expression(paste("LI: ",theta[0],"=",pi/2,sep="")),expression
 
 </p>
 </details>
+
+## Figure 3: A person’s daily trajectories over the course of a week.
+
+This figure is a composite image that is used to demonstrate GPS trajectories. These mobility trace images are generated as part of the GPSmobility R package that preprocessing raw GPS data. Please see the tutorial for instructions on how to generate these kinds of figures, where demo data is also provided.
