@@ -1,7 +1,7 @@
 Directions for running the code on this example:
 
-1. Install the GPSmobility package in R. The source for the package is included in this folder "GPSmobility_X.X.tar.gz"
-2. Open command line and change the directory to this example folder
+1. Install the GPSmobility package in R. The source for the package is included in this folder and is called "GPSmobility_X.X.tar.gz"
+2. To access the demo data, download and unzip the GPSexample.zip file. Open command line and change the directory to this example folder
 3. Enter the following command: "Rscript GPSMobility.R example1". This will create
 	* One mobility plot for each day in the data set (FlightsPlot_YYYY-MM-DD_example1.pdf)
 	* One mobility plot combined over the entirety of the data set (FlightsPlot_full_example1.pdf)
