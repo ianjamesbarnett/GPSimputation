@@ -1,3 +1,5 @@
+Here we provide the code and instructions necessary to reproduce the results of the manuscript titled "Inferring Mobility Measures from GPS Traces with Missing Data" by Ian Barnett and J.P. Onnela. In addition, this repository contains the R package "GPSmobility" as well as a tutorial for its use.
+
 
 ## Figure 1. Theoretical unobserved trajectories and their surrogates.
 
