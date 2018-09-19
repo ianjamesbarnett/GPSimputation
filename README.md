@@ -4,7 +4,195 @@ Here we provide the code and instructions necessary to reproduce the results of 
 
 ## Geolife GPS data analysis
 
-The Geolife project collected GPS data from 182 individuals. [Data download](https://www.microsoft.com/en-us/download/details.aspx?id=52367&from=https%3A%2F%2Fresearch.microsoft.com%2Fen-us%2Fdownloads%2Fb16d359d-d164-469e-9fd4-daa38f2b2e13%2F).
+The Geolife project collected GPS data from 182 individuals. [Data download](https://www.microsoft.com/en-us/download/details.aspx?id=52367&from=https%3A%2F%2Fresearch.microsoft.com%2Fen-us%2Fdownloads%2Fb16d359d-d164-469e-9fd4-daa38f2b2e13%2F). 
+
+<details><summary>The code that produces this figure.</summary>
+<p>
+
+```
+########################
+### USER INPUT REQUIRED
+########################
+
+### Modify the following string to point to gps_survey_communication_dailyfeatures.R 
+daily_features_filelocation = ""
+### Modify the following string to point to GPS_preprocessing.R
+gps_preprocessing_filelocation = ""
+### Modify the following string to point to the Geolife dataset file directory
+homedir=""
+
+########################
+### END OF USER INPUT
+########################
+
+source(gps_preprocessing_filelocation)
+source(daily_features_filelocation)
+
+GPS_preprocessing = function(patient_name,
+                             homedir,
+                             ACCURACY_LIM=51, ### meters GPS accuracy
+                             ITRVL=10, ### seconds (data concatenation)
+                             tz="", ### time zone of data, defaults to current time zone
+                             CENTERRAD=200, ### meters radius from significant locations considered
+                             minpausedur=300,
+                             minpausedist=60,
+                             rad_fp=NULL,
+                             wid_fp=NULL
+){
+  outdir = file.path(homedir,"Preprocessed_data")
+  if(!file.exists(outdir)){
+    dir.create(outdir)
+  }  
+  outdir = file.path(paste(homedir,"Preprocessed_data",sep="/"),patient_name)
+  if(!file.exists(outdir)){
+    dir.create(outdir)
+  }  
+  outfilename =paste(outdir,paste("gps_preprocessed_",patient_name,".Rdata",sep=""),sep="/")
+  if(file.exists(outfilename)){
+    cat("GPS already preprocessed.\n")
+    return(NULL)
+  }
+  filelist <- list.files(path=paste(homedir,"Data",patient_name,"Trajectory",sep="/"),pattern = "\\.csv$",full.names=T)
+  if(length(filelist)==0){return(NULL)}
+  mobmatmiss=GPS2MobMat(filelist,itrvl=ITRVL,accuracylim=ACCURACY_LIM,r=rad_fp,w=wid_fp)
+  #mobmat = GuessPause(mobmatmiss,mindur=minpausedur,r=minpausedist)
+  mobmat=mobmatmiss
+  obj=InitializeParams(mobmat)
+  qOKmsg=MobmatQualityOK(mobmat,obj)
+  if(qOKmsg!=""){
+    cat(qOKmsg,"\n")
+    return(NULL)
+  }
+  save(file=outfilename,mobmat,mobmatmiss,obj,tz,CENTERRAD,ITRVL)  
+}
+
+InduceMissingness = function(submat,neventsmiss){
+  IDkeep=which((1:nrow(submat))%%(neventsmiss+1)==1)
+  outmat = matrix(NA,nrow=2*length(IDkeep)-1,ncol=7)
+  colnames(outmat)=colnames(submat)
+  outmat[which((1:nrow(outmat))%%2==1),]=submat[IDkeep,]
+  for(i in 1:(length(IDkeep)-1)){
+    outmat[2*i,]=c(4,NA,NA,outmat[2*i-1,7],NA,NA,outmat[2*i+1,4])
+  }
+  return(outmat)
+}
+
+GetDistanceMetrics = function(submat){
+  outvec = rep(NA,8)
+  outvec[1]=DistanceTravelled(submat)
+  outvec[2]=RadiusOfGyration(submat,ITRVL=10)
+  outvec[3]=MaxDiam(submat)
+  outvec[4]=AvgFlightLen(submat)
+  outvec[5]=StdFlightLen(submat)
+  outvec[6]=AvgFlightDur(submat)
+  outvec[7]=StdFlightDur(submat)
+  outvec[8]=ProbPause(submat)
+  names(outvec) = c("Dist","RoG","MaxDiam","AvgFlightLen","StdFlightLen","AvgFlightDur","StdFlightDur","ProbPause")
+  return(outvec)
+}
+
+IDs = list.dirs(paste(homedir,"Data",sep="/"),recursive=F,full.names=F)
+simnum=1
+
+cat("\nProcessing GPS data for",length(IDs),"subjects:\n\n")
+for(i in 1:length(IDs)){
+  cat(paste("Processing ID for GPS mobility: ",IDs[i]," (",i,"/",length(IDs),")\n",sep=""))
+  try1=try(GPS_preprocessing(IDs[i],homedir),silent=TRUE)
+  if(class(try1) == "try-error"){
+    next
+  }
+}
+
+ls_out=list()
+minlen = 30 # minutes
+neventsmiss=4
+nperperson = 10
+counter=1
+ninds = 181
+
+for(iii in 1:ninds){
+  rdataloc = paste(homedir,"/Preprocessed_data/",IDs[iii],"/gps_preprocessed_",IDs[iii],".Rdata",sep="")
+  cat("Patient: ",IDs[iii],"\n")
+  if(!file.exists(rdataloc)){
+    next
+  }
+  load(rdataloc)
+  countperperson=0
+  ecount=0
+  scount=0
+  startover=T
+  for(i in 1:nrow(mobmat)){
+    if(mobmat[i,1]>=3){
+      if(scount > minlen*60 && ecount > 20){
+        countperperson=countperperson+1
+        cat(counter,"\n")
+        submat=mobmat[IDstart:(i-1),]
+        submatmiss = InduceMissingness(submat,neventsmiss)
+        submatimp_LI=SimulateMobilityGaps(submatmiss,obj,wtype="LI")
+        submatimp_TL1=SimulateMobilityGaps(submatmiss,obj,wtype="TL",spread_pars=c(1,1))
+        submatimp_TL10=SimulateMobilityGaps(submatmiss,obj,wtype="TL",spread_pars=c(1,10))
+        submatimp_TL20=SimulateMobilityGaps(submatmiss,obj,wtype="TL",spread_pars=c(1,20))
+        submatimp_GL1=SimulateMobilityGaps(submatmiss,obj,wtype="GL",spread_pars=c(1,1))
+        submatimp_GL10=SimulateMobilityGaps(submatmiss,obj,wtype="GL",spread_pars=c(1,10))
+        submatimp_GL20=SimulateMobilityGaps(submatmiss,obj,wtype="GL",spread_pars=c(1,20))
+        submatimp_GLR1=SimulateMobilityGaps(submatmiss,obj,wtype="GLR",spread_pars=c(1,1))
+        submatimp_GLR10=SimulateMobilityGaps(submatmiss,obj,wtype="GLR",spread_pars=c(1,10))
+        submatimp_GLR20=SimulateMobilityGaps(submatmiss,obj,wtype="GLR",spread_pars=c(1,20))
+        ls_out[[counter]]=cbind(GetDistanceMetrics(submat),
+                                GetDistanceMetrics(submatimp_LI),
+                                GetDistanceMetrics(submatimp_TL1),
+                                GetDistanceMetrics(submatimp_TL10),
+                                GetDistanceMetrics(submatimp_TL20),
+                                GetDistanceMetrics(submatimp_GL1),
+                                GetDistanceMetrics(submatimp_GL10),
+                                GetDistanceMetrics(submatimp_GL20),
+                                GetDistanceMetrics(submatimp_GLR1),
+                                GetDistanceMetrics(submatimp_GLR10),
+                                GetDistanceMetrics(submatimp_GLR20))
+        colnames(ls_out[[1]])=c("Truth","LI","TL1","TL10","TL20","GL1","GL10","GL20","GLR1","GLR10","GLR20")
+        counter=counter+1
+      }
+      if(countperperson >= nperperson){
+        break
+      }
+      startover=T
+      ecount=0
+      scount=0
+    }else{
+      if(startover){
+        IDstart = i
+        startover=F
+      }
+      scount = scount + mobmat[i,7]-mobmat[i,4]
+      ecount = ecount + 1
+    }
+  }
+}
+save(file=paste(homedir,"/ComparisonTable1.Rdata",sep=""),ls_out)
+
+errmat = matrix(0,nrow=nrow(ls_out[[1]]),ncol=ncol(ls_out[[1]]))
+sumcount=0
+for(i in 1:length(ls_out)){
+  curmat=ls_out[[i]]
+  if(length(which(curmat[,1]==0))>0){next}
+  for(j in 1:nrow(ls_out[[i]])){
+    errmat[j,]=errmat[j,]+100*(curmat[j,]-curmat[j,1])/(curmat[j,1])
+    sumcount=sumcount+1
+  }
+}
+errmat=errmat/sumcount
+errmat = rbind(errmat,colMeans(abs(errmat)))
+colnames(errmat) = colnames(ls_out[[1]])
+rownames(errmat) = c(rownames(ls_out[[1]]),"Avg. Error")
+
+cat("Average error (%)\n");colMeans(abs(errmat))
+
+
+library(xtable)
+xtable(errmat)
+```
+</p>
+</details>
 
 
 ## Figure 1. Theoretical unobserved trajectories and their surrogates.
