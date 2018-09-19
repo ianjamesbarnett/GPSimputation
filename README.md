@@ -5,6 +5,7 @@
 
 <details><summary>The code that produces this figure.</summary>
 <p>
+  
 ```
 par(mfrow=c(3,2))
 par(mai=c(0,0,0,0))
@@ -222,7 +223,9 @@ legend("bottomright",c("Truth","Simulation","LI",expression(mu)),bty="n",lty=c(1
 
 
 
-The code that produces this figure is:
+<details><summary>The code that produces this figure.</summary>
+<p>
+  
 ```
 N_v=seq(100,500,100)
 nreps=2000
@@ -323,3 +326,6 @@ lines(N_v,log10(lsout[[1]][,2]),lty=2,col="Black")
 legend("topleft",c(expression(paste("LI: ",theta[0],"=",pi/2,sep="")),expression(paste("LI: ",theta[0],"=",pi/3,sep="")),expression(paste("LI: ",theta[0],"=",pi/18,sep="")),expression(paste("LI: ",theta[0],"=",0,sep="")),"Simulation"),lty=c(1,1,1,1,2),col=c("ForestGreen","Purple","Blue","Red","Black"),bty='n',cex=.6)
 
 ```
+
+</p>
+</details>
