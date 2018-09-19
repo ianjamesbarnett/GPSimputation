@@ -4,7 +4,7 @@ Here we provide the code and instructions necessary to reproduce the results of 
 
 ## GeoLife GPS data analysis
 
-The GeoLife project collected GPS data from 182 individuals. [Data download](https://www.microsoft.com/en-us/download/details.aspx?id=52367&from=https%3A%2F%2Fresearch.microsoft.com%2Fen-us%2Fdownloads%2Fb16d359d-d164-469e-9fd4-daa38f2b2e13%2F). 
+The GeoLife project collected GPS data from 182 individuals. [Data download](https://www.microsoft.com/en-us/download/details.aspx?id=52367&from=https%3A%2F%2Fresearch.microsoft.com%2Fen-us%2Fdownloads%2Fb16d359d-d164-469e-9fd4-daa38f2b2e13%2F). In order to replicate the analysis of the GeoLife dataset (Table 2), the *GPS_preprocessing.R* and *gps_survey_communication_dailyfeatures.R* scripts need to be sourced first.
 
 <details><summary>GeoLife analyses to produce Table 2.</summary>
 <p>
