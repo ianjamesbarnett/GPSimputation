@@ -6,8 +6,8 @@ Directions for running the code on this example:
  * One mobility plot for each day in the data set (FlightsPlot_YYYY-MM-DD_example1.pdf)
  * One mobility plot combined over the entirety of the data set (FlightsPlot_full_example1.pdf)
  * A tab delimited matrix of mobility features (MobFeatMat_example1.txt). The rows of this file represent a single day in the range that the data set was collected over. Each column represents a different feature. The features are described here:
-			1. Hometime:			Time spent at home (minutes)	
-			2. DistTravelled:		Distance travelled (meters)
+			**. Hometime:			Time spent at home (minutes)	
+			**. DistTravelled:		Distance travelled (meters)
 			3. RoG:				Radius of gyration (meters)
 			4. MaxDiam:			Maximum diameter (longest distance between any two points) (meters)
 			* MaxHomeDist:		Maximum distance from home (meters)
