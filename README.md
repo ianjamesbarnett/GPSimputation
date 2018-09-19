@@ -212,6 +212,7 @@ legend("topright",legend=bquote(paste("n=",.(N),"; ",theta[0],"=",0)),bty="n")
 legend("topleft",legend="F",bty="n")
 legend("bottomright",c("Truth","Simulation","LI",expression(mu)),bty="n",lty=c(1,1,1,2),col=c("Red","Green","Purple","Black"))
 ```
+
 </p>
 </details>
 
