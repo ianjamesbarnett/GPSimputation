@@ -3,9 +3,8 @@
 
 ![image](/Figures/SemiCircleTrajectoriesExampleFig2.png)
 
-
-
-The code that produces this figure is:
+<details><summary>The code that produces this figure.</summary>
+<p>
 ```
 par(mfrow=c(3,2))
 par(mai=c(0,0,0,0))
@@ -213,7 +212,8 @@ legend("topright",legend=bquote(paste("n=",.(N),"; ",theta[0],"=",0)),bty="n")
 legend("topleft",legend="F",bty="n")
 legend("bottomright",c("Truth","Simulation","LI",expression(mu)),bty="n",lty=c(1,1,1,2),col=c("Red","Green","Purple","Black"))
 ```
-
+</p>
+</details>
 
 ## Figure 2. Expected average gap between imputed trajectories and the true unobserved trajectory.
 
