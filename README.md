@@ -2,11 +2,11 @@
 
 Here we provide the code and instructions necessary to reproduce the results of the manuscript titled "Inferring Mobility Measures from GPS Traces with Missing Data" by Ian Barnett and J.P. Onnela. In addition, this repository contains the R package "GPSmobility" as well as a tutorial for its use.
 
-## Geolife GPS data analysis
+## GeoLife GPS data analysis
 
-The Geolife project collected GPS data from 182 individuals. [Data download](https://www.microsoft.com/en-us/download/details.aspx?id=52367&from=https%3A%2F%2Fresearch.microsoft.com%2Fen-us%2Fdownloads%2Fb16d359d-d164-469e-9fd4-daa38f2b2e13%2F). 
+The GeoLife project collected GPS data from 182 individuals. [Data download](https://www.microsoft.com/en-us/download/details.aspx?id=52367&from=https%3A%2F%2Fresearch.microsoft.com%2Fen-us%2Fdownloads%2Fb16d359d-d164-469e-9fd4-daa38f2b2e13%2F). 
 
-<details><summary>The code that produces this figure.</summary>
+<details><summary>GeoLife analyses to produce Table 2.</summary>
 <p>
 
 ```
